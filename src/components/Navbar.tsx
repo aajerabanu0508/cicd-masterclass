@@ -11,7 +11,8 @@ import {
   Layers, 
   Cloud,
   ChevronRight,
-  Tv
+  Tv,
+  Rocket
 } from 'lucide-react';
 
 interface NavbarProps {
@@ -47,12 +48,12 @@ export const Navbar: React.FC<NavbarProps> = ({
             title="CI/CD Masterclass Home"
           >
             <div className="relative shrink-0">
-              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-amber-400 to-orange-500 flex items-center justify-center text-slate-950 font-black shadow-md shadow-orange-500/20 group-hover:scale-105 transition-transform">
-                <span className="text-lg sm:text-xl">🍔</span>
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-cyan-500 flex items-center justify-center text-white shadow-md shadow-blue-500/25 group-hover:scale-105 group-hover:shadow-blue-500/40 transition-all duration-300">
+                <Rocket className="w-5 h-5 sm:w-5.5 sm:h-5.5 text-white transform -rotate-12 group-hover:rotate-0 transition-transform duration-300 drop-shadow-sm" />
               </div>
               <span className="absolute -bottom-0.5 -right-0.5 flex h-2.5 w-2.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-blue-600"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500 ring-2 ring-white"></span>
               </span>
             </div>
 
@@ -66,7 +67,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 </span>
               </div>
               <p className="text-[10px] text-slate-500 hidden xl:block font-medium truncate max-w-[240px]">
-                Food Delivery to Cloud Pipelines
+                Continuous Delivery & Cloud Pipelines
               </p>
             </div>
           </button>

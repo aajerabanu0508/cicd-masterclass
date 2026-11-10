@@ -10,6 +10,7 @@ import { AwsSimulatorPage } from './pages/AwsSimulatorPage';
 import { SearchModal } from './components/SearchModal';
 import { CertificateModal } from './components/CertificateModal';
 import { lessons } from './content/lessons';
+import { Rocket } from 'lucide-react';
 
 export function App() {
   const {
@@ -199,10 +200,12 @@ export function App() {
         <footer className="bg-slate-100 border-t border-slate-200 py-10 px-4 mt-auto">
           <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-xs text-slate-600">
           <div className="flex items-center gap-3">
-            <span className="text-xl">🍔</span>
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-blue-600 via-indigo-600 to-cyan-500 flex items-center justify-center text-white shadow-sm shrink-0">
+              <Rocket className="w-4 h-4 text-white -rotate-12" />
+            </div>
             <div>
               <span className="font-bold text-slate-900 text-sm">CI/CD Masterclass</span>
-              <p className="text-[11px] text-slate-500">From Food Ordering to Automated Production Cloud Delivery</p>
+              <p className="text-[11px] text-slate-500">Automated Cloud Deployment & DevOps Delivery</p>
             </div>
           </div>
 
