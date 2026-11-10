@@ -883,37 +883,37 @@ def generate_master_powerpoint():
     p_badge.font.color.rgb = BLUE_ACCENT
 
     p_name = tf_bio.add_paragraph()
-    p_name.text = clean("KERTHIK")
-    p_name.font.size = Pt(24)
+    p_name.text = clean("AAJERA BANU S (She/Her)")
+    p_name.font.size = Pt(22)
     p_name.font.bold = True
     p_name.font.color.rgb = TEXT_DARK
     p_name.space_before = Pt(4)
 
     p_role = tf_bio.add_paragraph()
-    p_role.text = clean("Project Manager at TNQ")
+    p_role.text = clean("AWS & Networking Trainer at LIVEWIRE Salem")
     p_role.font.size = Pt(14)
     p_role.font.bold = True
     p_role.font.color.rgb = BLUE_ACCENT
     p_role.space_before = Pt(4)
 
     p_past = tf_bio.add_paragraph()
-    p_past.text = clean("Worked as DevOps Engineer at SentinelFox")
+    p_past.text = clean("Redis Certified Associate Cloud Operator")
     p_past.font.size = Pt(13)
-    p_past.font.color.rgb = TEXT_BODY
+    p_past.font.bold = True
+    p_past.font.color.rgb = AMBER_ACCENT
     p_past.space_before = Pt(4)
 
     p_venture = tf_bio.add_paragraph()
-    p_venture.text = clean("Building OrivianLabs (DevOps & Cloud Systems Fellowship)")
+    p_venture.text = clean("Ex-Cloud Engineer Intern at Codec Technologies India")
     p_venture.font.size = Pt(13)
-    p_venture.font.bold = True
-    p_venture.font.color.rgb = AMBER_ACCENT
+    p_venture.font.color.rgb = TEXT_BODY
     p_venture.space_before = Pt(4)
 
     p_desc = tf_bio.add_paragraph()
-    p_desc.text = clean("Engineering leader focused on production cloud architectures, zero-downtime pipelines, and developer productivity.")
-    p_desc.font.size = Pt(12)
+    p_desc.text = clean("DevOps & Cloud Enthusiast specializing in Docker containerization, Jenkins & GitHub Actions CI/CD pipelines, Terraform, and AWS ECS Fargate microservices.")
+    p_desc.font.size = Pt(11.5)
     p_desc.font.color.rgb = TEXT_BODY
-    p_desc.space_before = Pt(8)
+    p_desc.space_before = Pt(6)
 
     # Right Hero Image Card on Slide 0
     hero_img = "/Users/kerthik/Downloads/Playground/cicd-masterclass/public/devops_cicd_intro.jpg"
@@ -932,7 +932,7 @@ def generate_master_powerpoint():
         p_c.font.color.rgb = TEXT_BODY
 
     f0 = s0.shapes.add_textbox(Inches(0.8), Inches(6.85), Inches(11.733), Inches(0.35))
-    f0.text_frame.paragraphs[0].text = clean("CI/CD Masterclass • Presented by Kerthik (Project Manager at TNQ) • Food Delivery Analogy")
+    f0.text_frame.paragraphs[0].text = clean("CI/CD Masterclass • Presented by Aajera Banu S (AWS & Networking Trainer at LIVEWIRE Salem) • Food Delivery Analogy")
     f0.text_frame.paragraphs[0].font.size = Pt(10)
     f0.text_frame.paragraphs[0].font.color.rgb = TEXT_MUTED
 

@@ -756,16 +756,28 @@ export const PresentationPage: React.FC<{ onBackToCourse: () => void }> = ({ onB
                 <div className="bg-gradient-to-br from-slate-50 to-blue-50/50 border border-blue-200 rounded-2xl p-3 sm:p-3.5 shadow-sm space-y-2.5">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-blue-600 text-white flex items-center justify-center font-black text-lg sm:text-xl shadow-md shadow-blue-500/20 shrink-0">
-                      K
+                      {PRESENTER_INFO.name.charAt(0)}
                     </div>
                     <div>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 flex-wrap">
                         <h3 className="text-sm sm:text-base font-black text-slate-950">{PRESENTER_INFO.name}</h3>
                         <span className="px-2 py-0.5 rounded-full bg-blue-100 text-blue-800 font-bold text-[10px] border border-blue-200">
                           Course Instructor
                         </span>
+                        <span className="px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 font-bold text-[10px] border border-slate-200">
+                          She/Her
+                        </span>
+                        <a
+                          href="https://www.linkedin.com/in/aajerabanu/"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 hover:bg-blue-100 font-bold text-[10px] border border-blue-300 transition-colors inline-flex items-center gap-1"
+                        >
+                          <span>LinkedIn</span>
+                          <span className="text-[9px]">↗</span>
+                        </a>
                       </div>
-                      <p className="text-xs font-bold text-blue-700">
+                      <p className="text-xs font-bold text-blue-700 mt-0.5">
                         {PRESENTER_INFO.role} at {PRESENTER_INFO.company}
                       </p>
                     </div>
@@ -1301,8 +1313,8 @@ export const PresentationPage: React.FC<{ onBackToCourse: () => void }> = ({ onB
                   </h4>
                   <p className="text-xs text-slate-600 mt-1 line-clamp-2">
                     {deck === 'deployment' 
-                      ? 'Course introduction, instructor profile (Kerthik), and 4-phase deployment curriculum.'
-                      : 'Course introduction, instructor profile (Kerthik), and 5-phase curriculum roadmap.'}
+                      ? `Course introduction, instructor profile (${PRESENTER_INFO.name}), and 4-phase deployment curriculum.`
+                      : `Course introduction, instructor profile (${PRESENTER_INFO.name}), and 5-phase curriculum roadmap.`}
                   </p>
                 </div>
                 <div className="mt-3 pt-2 border-t border-slate-100 flex items-center gap-1.5 text-[11px] text-blue-600 font-bold">

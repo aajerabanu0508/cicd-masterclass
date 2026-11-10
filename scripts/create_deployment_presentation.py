@@ -242,16 +242,16 @@ def generate_deployment_powerpoint():
     p_phead.font.color.rgb = AMBER_ACCENT
 
     p_pname = tf_p.add_paragraph()
-    p_pname.text = "Kerthik — Project Manager & Cloud DevOps Architect"
+    p_pname.text = "Aajera Banu S (She/Her) — AWS & Networking Trainer"
     p_pname.font.size = Pt(20)
     p_pname.font.bold = True
     p_pname.font.color.rgb = TEXT_DARK
     p_pname.space_before = Pt(4)
 
     experiences = [
-        ("Current Leadership Role", "Project Manager at TNQ", "Directing enterprise software delivery, high-velocity engineering roadmaps, and agile release velocity."),
-        ("Founder & Architecture", "Building OrivianLabs", "Empowering software engineers with production DevOps, Kubernetes, and AWS Cloud Systems Fellowships."),
-        ("DevOps Roots", "Ex-DevOps Engineer at SentinelFox", "Architected high-availability CI/CD pipelines, Dockerized microservices, and zero-downtime cloud infrastructure.")
+        ("Current Leadership Role", "AWS & Networking Trainer at LIVEWIRE Salem", "Training students in AWS Cloud (EC2, S3, VPC, IAM) and Cisco CCNA networking (routing, switching, subnetting, TCP/IP, VLANs, ACLs, and NAT)."),
+        ("Industry Certification", "Redis Certified Associate Cloud Operator", "Specializing in Redis Cloud architecture, high availability, in-memory caching, and distributed performance optimization."),
+        ("DevOps & Cloud Roots", "Ex-Cloud Engineer Intern at Codec Technologies India", "Architected microservices e-commerce platform using Docker, Docker Compose, AWS ECS Fargate, Nginx reverse proxy, and Prometheus/Grafana.")
     ]
 
     for badge, title, desc in experiences:

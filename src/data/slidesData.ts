@@ -19,37 +19,37 @@ export interface PresenterBio {
 }
 
 export const PRESENTER_INFO: PresenterBio = {
-  name: "Kerthik",
-  role: "Project Manager",
-  company: "TNQ",
-  previousRole: "Worked as DevOps Engineer at SentinelFox",
-  venture: "Building OrivianLabs",
-  ventureDetail: "DevOps, Kubernetes & Cloud Systems Fellowship",
-  bio: "Engineering leader and DevOps specialist with deep hands-on expertise spanning agile project management, production cloud infrastructure, automated CI/CD pipelines, and high-velocity developer culture.",
+  name: "Aajera Banu S",
+  role: "AWS & Networking Trainer",
+  company: "LIVEWIRE Salem",
+  previousRole: "Ex-Cloud Engineer Intern at Codec Technologies",
+  venture: "Redis Certified Associate Cloud Operator",
+  ventureDetail: "DevOps, Containerization & AWS Infrastructure Automation",
+  bio: "AWS & Networking Trainer and Redis Certified Associate Cloud Operator with deep hands-on expertise in Docker containerization, Jenkins & GitHub Actions CI/CD pipelines, Linux administration, AWS ECS Fargate, and production network troubleshooting.",
   experiences: [
     {
-      role: "Project Manager",
-      company: "TNQ",
-      type: "Current Leadership Role",
-      badge: "Current PM @ TNQ",
+      role: "AWS & Networking Trainer",
+      company: "LIVEWIRE Salem",
+      type: "Current Leadership & Training",
+      badge: "Trainer @ LIVEWIRE Salem",
       badgeClass: "bg-blue-100 text-blue-900 border-blue-300 font-bold",
-      description: "Working as Project Manager in TNQ, orchestrating enterprise software delivery, engineering roadmaps, and agile release velocity."
+      description: "Training students and engineers in AWS Cloud (EC2, S3, VPC, IAM) and Cisco CCNA networking (routing, switching, subnetting, TCP/IP, VLANs, ACLs, and NAT) with comprehensive hands-on labs."
     },
     {
-      role: "Building OrivianLabs",
-      company: "OrivianLabs",
-      type: "Founder & Architecture",
-      badge: "Founder @ OrivianLabs",
+      role: "Redis Certified Cloud Operator",
+      company: "Redis Certified",
+      type: "Industry Certification",
+      badge: "Redis Certified Associate",
       badgeClass: "bg-amber-100 text-amber-950 border-amber-300 font-bold",
-      description: "Building OrivianLabs — empowering engineers with hands-on masterclasses and fellowships in production DevOps, Kubernetes, and AWS cloud systems."
+      description: "Certified Cloud Operator specializing in Redis Cloud architecture, high-availability in-memory caching, performance optimization, and distributed cloud systems."
     },
     {
-      role: "DevOps Engineer",
-      company: "SentinelFox",
-      type: "DevOps Engineering Roots",
-      badge: "Ex-DevOps @ SentinelFox",
+      role: "Cloud Engineer Intern",
+      company: "Codec Technologies India",
+      type: "DevOps & Cloud Engineering",
+      badge: "Ex-Cloud Intern @ Codec",
       badgeClass: "bg-emerald-100 text-emerald-950 border-emerald-300 font-bold",
-      description: "Worked as DevOps Engineer in SentinelFox, designing automated CI/CD delivery pipelines, Docker containers, and high-availability production cloud infrastructure."
+      description: "Architected microservices e-commerce platform using Docker, Docker Compose, AWS ECS Fargate, Nginx reverse proxy, and Prometheus/Grafana real-time monitoring."
     }
   ]
 };
@@ -941,7 +941,7 @@ export const MASTER_SLIDES_DATA: MasterSlide[] = [
     "detailedPoints": [
       "Congratulations! You have completed the comprehensive 21-slide CI/CD Masterclass from manual friction to automated AWS cloud delivery.",
       "Open Floor for Any Questions: Ask about GitHub Actions, Docker containers, AWS ECS/ECR deployment architectures, or security best practices.",
-      "Connect with Instructor Kerthik: Project Manager at TNQ, Founder building OrivianLabs, and Former DevOps Engineer at SentinelFox."
+      "Connect with Instructor Aajera Banu S: AWS & Networking Trainer at LIVEWIRE Salem, Redis Certified Cloud Operator, and Ex-Cloud Engineer Intern at Codec Technologies."
     ],
     "keyTakeaway": "Continuous delivery is an engineering superpower. Automate relentlessly, test thoroughly, and ship to production with fearless confidence!",
     "image": "/slides/slide_21.png",
@@ -977,10 +977,10 @@ export const MASTER_SLIDES_DATA: MasterSlide[] = [
       {
         "icon": "Compass",
         "title": "4. Career Path & Engineering Leadership",
-        "desc": "Discussion on navigating DevOps engineering, transitioning into Project Management, building developer culture, and OrivianLabs.",
+        "desc": "Discussion on navigating DevOps engineering, AWS Cloud certifications, CCNA networking foundations, and hands-on containerized applications.",
         "sampleQuestions": [
           "How to transition from software engineering into DevOps / Cloud?",
-          "How does a Project Manager effectively bridge Dev and Ops teams?"
+          "How does understanding networking (VLANs, DNS, NAT) accelerate cloud architecture mastery?"
         ]
       }
     ],
@@ -991,24 +991,24 @@ export const MASTER_SLIDES_DATA: MasterSlide[] = [
       },
       {
         "title": "Mentorship & Community 🚀",
-        "desc": "Connect with Kerthik and the OrivianLabs engineering fellowship to continue building hands-on cloud native systems."
+        "desc": "Connect with Aajera Banu S on LinkedIn to explore AWS cloud, CCNA networking, Redis, and containerized deployments."
       }
     ],
     "contactChannels": [
       {
         "label": "Instructor",
-        "value": "Kerthik",
-        "note": "Working as Project Manager in TNQ"
+        "value": "Aajera Banu S",
+        "note": "AWS & Networking Trainer at LIVEWIRE Salem"
       },
       {
-        "label": "Initiative",
-        "value": "Building OrivianLabs",
-        "note": "Modern DevOps, Cloud & Kubernetes fellowships"
+        "label": "Certification",
+        "value": "Redis Certified",
+        "note": "Redis Certified Associate Cloud Operator"
       },
       {
-        "label": "Background",
-        "value": "DevOps Roots",
-        "note": "Worked as DevOps Engineer in SentinelFox"
+        "label": "Experience",
+        "value": "Cloud & DevOps",
+        "note": "Ex-Cloud Engineer Intern at Codec Technologies India"
       }
     ]
   }
