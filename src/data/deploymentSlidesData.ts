@@ -29,62 +29,62 @@ export const DEPLOYMENT_SLIDES_DATA: MasterSlide[] = [
   },
   {
     num: 2,
-    title: "The Manual Deployment Era: The 8-Step Gauntlet",
-    subtitle: "The Risky, Multi-Hour Release Ceremony Before DevOps Automation",
-    category: "Manual Delivery",
+    title: "Manual EC2 Deployment: The 'Push & SSH' Routine",
+    subtitle: "Git Push ➔ SSH into EC2 ➔ Install Packages ➔ Git Pull ➔ Nano .env ➔ Build & PM2 Restart",
+    category: "Manual Process",
     image: "/slides/deployment/slide_2.png",
-    imageCaption: "The 8-Step Manual Gauntlet: High human friction, zero automated audit trail, and frequent outages.",
+    imageCaption: "Manual EC2 Workflow: Push to GitHub ➔ SSH into AWS EC2 ➔ apt install tools ➔ git pull ➔ nano .env ➔ build on server ➔ restart PM2.",
     contentPoints: [
-      "Before modern automation, software releases were high-friction rituals involving tedious manual bash commands.",
-      "Developers ran local builds, manually uploaded tarballs via FTP or SCP, and opened root SSH terminals into production.",
-      "Configuration was manually typed into live .env files, SQL migrations were executed by hand, and services were restarted manually.",
-      "This multi-hour process was stressful, error-prone, and frequently took applications offline."
+      "The most common manual deployment pattern: push code to GitHub, then manually SSH into an AWS EC2 instance.",
+      "Engineers log in using private key pairs: ssh -i key.pem ubuntu@ec2-ip, then manually install Git, Node.js, and Nginx.",
+      "Code is pulled directly onto the live server via git pull origin main, followed by manual nano .env editing.",
+      "The application is built directly on the production server (npm run build) and restarted using PM2 or systemd."
     ],
     detailedPoints: [
-      "Step 1 & 2 (Build & Upload): Dev runs `npm run build` locally and uploads a zip file using FileZilla or `scp release.zip root@server:/var/www`.",
-      "Step 3 & 4 (SSH & Unpack): Engineer logs in via SSH (`ssh root@192.168.1.100`) and extracts the tarball directly over existing files.",
-      "Step 5 & 6 (Live Config & SQL): Manually editing live database passwords with nano/vim and copy-pasting raw SQL schema updates into the MySQL prompt.",
-      "Step 7 & 8 (Restart & Pray): Running `systemctl restart nginx && pm2 restart all` which drops active user requests, followed by nervously refreshing the homepage."
+      "Step 1 & 2 (Push & SSH): Developer pushes commits to GitHub (git push origin main) and opens a live terminal to SSH into EC2: ssh -i my-key.pem ubuntu@54.210.xx.xx.",
+      "Step 3 & 4 (Install Tools & Git Pull): Running sudo apt update && sudo apt install -y git nodejs npm, then cd /home/ubuntu/app && git pull origin main on the live box.",
+      "Step 5 & 6 (Nano .env & Server Build): Manually creating or editing .env secrets using nano, then running npm install && npm run build directly on the EC2 instance.",
+      "Step 7 & 8 (PM2 Restart & Nginx Proxy): Starting or restarting process via pm2 restart app, configuring Nginx reverse proxy to port 3000, and manually checking in browser."
     ],
     problemsList: [
-      "Relies 100% on human memory and perfection under extreme pressure",
-      "Shared root SSH keys stored on unencrypted developer laptops",
-      "Manual service restarts cause unavoidable HTTP connection drops and downtime",
-      "Inconsistent file permissions and untracked changes on production servers",
-      "No centralized audit log of who changed which line of configuration"
+      "Requires manually SSHing into production with sensitive .pem private keys",
+      "Building on EC2 (npm run build) causes 100% CPU spikes and OOM crashes on t2/t3.micro instances",
+      "Impossible to scale: SSHing and pulling code across 10 or 20 auto-scaled EC2 instances is unmanageable",
+      "Git merge conflicts or failed npm installs leave live production in a broken, half-deployed state",
+      "Plaintext secrets stored directly in .env files on the EC2 file system"
     ],
     foodAnalogy: {
-      "title": "The Hand-Carried Soup Bowl 🍲",
-      "story": "Imagine a waiter carrying a piping-hot bowl of soup across a crowded, slippery dining room on foot with no tray and no lid. One bump, one distracted step, and the soup spills everywhere, scalding customers and ruining the floor.",
-      "connection": "Manual deployment is that precarious balancing act: one typo in the terminal or one wrong database command brings down the entire business."
+      "title": "Cooking Directly on the Customer's Table 🍳",
+      "story": "Imagine a chef carrying raw ingredients into the restaurant dining room, setting up a portable stove right on the customer's table, chopping vegetables, and frying food while customers are trying to eat.",
+      "connection": "Running git pull, npm install, and npm run build directly on a live production EC2 instance creates smoke, resource contention, and downtime right in front of your live users."
     },
-    keyTakeaway: "Manual deployment relies on human perfection under stress — an inevitable recipe for production failure."
+    keyTakeaway: "Deploying by SSHing into EC2 and running git pull works for a single hobby server, but collapses the moment you scale to real production traffic."
   },
   {
     num: 3,
-    title: "Fatal Bottlenecks: Why Manual Deployments Fail",
-    subtitle: "Downtime, Rollback Nightmares, Configuration Drift, and Team Burnout",
+    title: "Why Manual EC2 Deployments Fail at Scale",
+    subtitle: "OOM Build Crashes, Multi-Instance Bottlenecks, Secret Leaks, and Rollback Nightmares",
     category: "Failure Analysis",
     image: "/slides/deployment/slide_3.png",
-    imageCaption: "The 4 Pillars of Manual Release Failure: Configuration Drift, Typos, 2 AM Downtime, and Rollback Paralysis.",
+    imageCaption: "The 4 Failure Pillars of Manual EC2 Delivery: OOM Server Freezes, Multi-Server Drag, SSH Key Leaks, and Rollback Paralysis.",
     contentPoints: [
-      "Configuration Drift: Staging OS or Node versions differ from prod; code works on dev machines but fails live.",
-      "Typo Disasters: A single misplaced semicolon, bad path, or `chmod -R 777` introduces catastrophic security leaks.",
-      "2:00 AM Maintenance Windows: Engineers deploy late at night during weekends, leading to sleep deprivation and errors.",
-      "Rollback Paralysis: Reverting broken releases requires re-uploading old zips and manual database reversals."
+      "OOM Crashes During Build: npm run build directly on EC2 consumes all RAM, freezing the server and dropping active user traffic.",
+      "Multi-Instance Scaling Trap: When traffic grows and you add 5 EC2 instances behind an AWS ALB, you must SSH into all 5 servers individually.",
+      "SSH Key & Credential Leaks: .pem private keys stored on developer laptops and plain text database credentials in EC2 .env files.",
+      "Rollback Paralysis: If a bug is deployed, you must SSH back in and run git checkout <old-commit> manually while the site is down."
     ],
     detailedPoints: [
-      "The 'Works On My Machine' Trap: Developer tested on macOS with Node 20; production runs Ubuntu with Node 18 and a missing native library. The site crashes on launch.",
-      "Fat-Finger Terminal Disasters: Accidental `rm -rf /` or executing a `DROP TABLE` migration on the production database instead of staging.",
-      "Sleep Deprivation: Because releases cause downtime, companies mandate deployment at 2:00 AM on Sunday mornings. Exhausted engineers make 5x more mistakes.",
-      "Rollback Nightmares: Without automated versioning, rolling back takes hours of manual panic. Customer transactions are lost and company reputation suffers."
+      "The Out-Of-Memory (OOM) Killer: Running Webpack / Vite / Next.js builds on an EC2 t2.micro (1GB RAM) triggers the Linux OOM killer, terminating both the build and the running web server.",
+      "The Multi-Server Nightmare: Modern cloud architectures use AWS Auto Scaling Groups. You cannot SSH into dynamic EC2 instances that spin up and down automatically.",
+      "Security Vulnerabilities: Shared root or ubuntu SSH keys without audit logs; if a developer leaves the company, private keys must be manually rotated across all servers.",
+      "Zero Automated Rollback: If git pull introduces a syntax error, your production service crashes immediately. There is no instant 1-second traffic reversal."
     ],
     foodAnalogy: {
-      "title": "The Unrecorded Secret Sauce 🥫",
-      "story": "When three chefs tweak a sauce recipe on the fly during a busy dinner shift without writing down the measurements, nobody knows why the sauce suddenly tastes burnt, and nobody can recreate yesterday's perfect flavor.",
-      "connection": "Untracked manual server changes make systems unpredictable and impossible to reproduce when emergencies strike."
+      "title": "The One-by-One Table Delivery 🛵",
+      "story": "A restaurant gets 100 orders during lunch rush. Instead of an automated dispatch line, one manager runs out to each delivery bike individually, hand-typing addresses into a GPS, and fixing broken bike chains on the sidewalk.",
+      "connection": "Manual SSH deployments force engineers to babysit servers one-by-one instead of leveraging automated container pipelines."
     },
-    keyTakeaway: "Manual deployments don't just cause downtime — they create release fear that paralyzes engineering organizations."
+    keyTakeaway: "Never build code on production servers — build immutable containers in CI, test them, and deploy pre-built artifacts."
   },
   {
     num: 4,
@@ -269,4 +269,3 @@ export const DEPLOYMENT_SLIDES_DATA: MasterSlide[] = [
     keyTakeaway: "Automating deployment is not just a tooling change — it is a cultural revolution that enables fearless innovation."
   }
 ];
-

@@ -127,43 +127,43 @@ slides = [
     },
 
     # ---------------------------------------------------------------------
-    # Slide 2: Manual Deployment: The 8-Step Gauntlet
+    # Slide 2: Manual EC2 Deployment: Push & SSH Routine
     # ---------------------------------------------------------------------
     {
         "id": 2,
-        "title": "The Manual Deployment Era: The 8-Step High-Risk Gauntlet",
+        "title": "Manual EC2 Deployment: The 'Push & SSH' Routine",
         "category": "Manual Process",
         "color": (225, 29, 72),
         "draw": "grid_8",
         "items": [
-            ("1. Local Build", "Dev runs build on laptop without automated lint/test.", (225, 29, 72)),
-            ("2. FTP / SCP Upload", "Manually transfer zip file via FileZilla or scp command.", (234, 88, 12)),
-            ("3. Root SSH Login", "Open terminal: ssh root@production-ip with shared key.", (217, 119, 6)),
-            ("4. Unpack Tarball", "Extract into /var/www/html/current directory manually.", (180, 83, 9)),
-            ("5. Nano .env Edit", "Live typing DB credentials into .env on live production.", (225, 29, 72)),
-            ("6. Manual SQL Script", "Run database migrations by hand using mysql/psql CLI.", (219, 39, 119)),
-            ("7. Restart Service", "systemctl restart nginx && pm2 restart (Drops traffic).", (147, 51, 234)),
-            ("8. Manual Smoke Check", "Hit refresh in browser: pray there is no 500 Server Error.", (100, 116, 139))
+            ("1. Push to GitHub", "Developer runs git add, commit, and git push origin main.", (37, 99, 235)),
+            ("2. SSH into EC2", "Run ssh -i my-key.pem ubuntu@ec2-ip in live terminal.", (225, 29, 72)),
+            ("3. Install Tools", "Run sudo apt update && apt install -y git nodejs npm.", (217, 119, 6)),
+            ("4. Git Pull Code", "cd /home/ubuntu/app && git pull origin main (resolve conflicts).", (234, 88, 12)),
+            ("5. Nano .env Setup", "Live typing DB password & secret keys into .env with nano.", (225, 29, 72)),
+            ("6. Build on EC2", "Run npm install && npm run build (100% CPU/RAM spike).", (219, 39, 119)),
+            ("7. Restart Service", "Run pm2 restart app or systemctl restart (Drops active requests).", (147, 51, 234)),
+            ("8. Nginx Proxy & Test", "Configure Nginx proxy to :3000 and refresh browser manually.", (100, 116, 139))
         ],
-        "footer": "Relies 100% on human memory and perfection under pressure — high stress, high error rate."
+        "footer": "Manual SSH deployments force engineers to babysit servers by hand — fragile and risky."
     },
 
     # ---------------------------------------------------------------------
-    # Slide 3: The Fatal Pitfalls of Manual Deployments
+    # Slide 3: Why Manual EC2 Deployments Fail at Scale
     # ---------------------------------------------------------------------
     {
         "id": 3,
-        "title": "Fatal Bottlenecks: Why Manual Deployments Fail",
+        "title": "Why Manual EC2 Deployments Fail at Scale",
         "category": "Failure Analysis",
         "color": (225, 29, 72),
         "draw": "cards_4",
         "cards": [
-            ("1. Configuration Drift", "Staging and Production have different OS versions, Node runtimes, or missing packages. Code passes in staging but crashes immediately on live servers.", (225, 29, 72)),
-            ("2. Typo Disasters & Bad Commands", "A single misplaced semicolon, bad environment variable, or chmod -R 777 introduces catastrophic security holes or takes the database offline.", (234, 88, 12)),
-            ("3. 2:00 AM Maintenance Windows", "Manual releases require multi-hour scheduled downtime late at night or over weekends. Exhausted engineers make more mistakes during off-hours.", (147, 51, 234)),
-            ("4. Rollback Nightmares", "When a manual deploy breaks, reverting requires re-uploading old zips and manually unwinding database changes. Prolonged downtime damages business revenue.", (219, 39, 119))
+            ("1. OOM Server Freezes on Build", "Running npm run build directly on EC2 consumes all RAM, triggering Linux OOM Killer. The build crashes and the live web server is terminated.", (225, 29, 72)),
+            ("2. Multi-Server Scaling Nightmare", "When you have 5 or 10 EC2 instances behind an AWS Load Balancer, you must SSH into each server individually and run git pull 10 times by hand.", (234, 88, 12)),
+            ("3. SSH Key & Plaintext Credential Leaks", "Sensitive .pem private keys stored on unencrypted laptops. Production database passwords and API tokens sit in plaintext .env files on EC2.", (147, 51, 234)),
+            ("4. Broken Half-State & Zero Rollback", "If git pull has a merge conflict or npm install fails midway, production is left in a broken half-deployed state with no automated rollback mechanism.", (219, 39, 119))
         ],
-        "footer": "Manual deployments create release anxiety — engineering teams become terrified to ship code."
+        "footer": "Never build code on production servers — build immutable containers in CI and deploy pre-built artifacts."
     },
 
     # ---------------------------------------------------------------------

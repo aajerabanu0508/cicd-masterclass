@@ -50,33 +50,33 @@ deployment_slides_data = [
     },
     {
         "num": 2,
-        "title": "The Manual Deployment Era: The 8-Step Gauntlet",
-        "subtitle": "The Risky, Multi-Hour Release Ceremony Before DevOps Automation",
+        "title": "Manual EC2 Deployment: The 'Push & SSH' Routine",
+        "subtitle": "Git Push ➔ SSH into EC2 ➔ Install Packages ➔ Git Pull ➔ Nano .env ➔ Build & PM2 Restart",
         "category": "Manual Process",
         "contentPoints": [
-            "Step 1 & 2: Local build on developer laptop followed by manual FTP/SCP zip transfer to servers.",
-            "Step 3 & 4: Root terminal SSH login (`ssh root@prod`) and manual tarball extraction into web directories.",
-            "Step 5 & 6: Live nano/vim edits of production `.env` files and manual execution of SQL database migrations.",
-            "Step 7 & 8: Manual service restart (`systemctl restart nginx && pm2 restart all`) dropping active user requests."
+            "Step 1 & 2: Push code to GitHub (git push origin main) and SSH into AWS EC2 (ssh -i key.pem ubuntu@ec2-ip).",
+            "Step 3 & 4: Manually install tools (apt install git nodejs nginx) and pull latest code (git pull origin main).",
+            "Step 5 & 6: Live editing .env secrets with nano, running npm install & npm run build directly on EC2.",
+            "Step 7 & 8: Restarting app with PM2 (pm2 restart app) and configuring Nginx reverse proxy to port 3000."
         ],
-        "keyTakeaway": "Manual deployment relies 100% on human perfection under stress—an inevitable recipe for production failure.",
+        "keyTakeaway": "Manual EC2 deployment forces engineers to babysit servers by hand—an inevitable recipe for production downtime.",
         "image": "/slides/deployment/slide_2.png",
-        "imageCaption": "The 8-Step Manual Gauntlet: High human friction, zero automated audit trail, and frequent outages."
+        "imageCaption": "Manual EC2 Flow: Push to Git -> SSH Terminal -> apt install -> git pull -> nano .env -> server build -> PM2 restart."
     },
     {
         "num": 3,
-        "title": "Fatal Bottlenecks: Why Manual Deployments Fail",
-        "subtitle": "Downtime, Rollback Nightmares, Configuration Drift, and Team Burnout",
+        "title": "Why Manual EC2 Deployments Fail at Scale",
+        "subtitle": "OOM Build Crashes, Multi-Instance Bottlenecks, Secret Leaks, and Rollback Nightmares",
         "category": "Failure Analysis",
         "contentPoints": [
-            "Configuration Drift: Staging OS or Node versions differ from prod; code works on dev machines but fails live.",
-            "Typo Disasters: A single misplaced semicolon, bad path, or `chmod -R 777` introduces catastrophic security leaks.",
-            "2:00 AM Maintenance Windows: Engineers deploy late at night during weekends, leading to sleep deprivation and errors.",
-            "Rollback Paralysis: Reverting broken releases requires re-uploading old zips and manual database reversals."
+            "OOM Crashes on Build: Running npm run build on EC2 uses all RAM, triggering Linux OOM Killer and crashing the server.",
+            "Multi-Instance Scaling Trap: When using 5 EC2 instances behind an ALB, you must SSH into each instance individually.",
+            "Security Vulnerabilities: Sensitive .pem private keys stored on laptops; database passwords sitting in plaintext .env files.",
+            "Zero Automated Rollback: If git pull introduces a syntax error, production crashes with no 1-second recovery."
         ],
-        "keyTakeaway": "Manual deployments don't just cause downtime—they create release fear that paralyzes business velocity.",
+        "keyTakeaway": "Never build code on production servers—build immutable containers in CI, test them, and deploy pre-built images.",
         "image": "/slides/deployment/slide_3.png",
-        "imageCaption": "The 4 Pillars of Manual Release Failure: Drift, Typos, 2 AM Downtime, and Rollback Nightmares."
+        "imageCaption": "The 4 Failure Pillars of Manual EC2 Delivery: OOM Freezes, Multi-Server Drag, Key Leaks, and Rollback Paralysis."
     },
     {
         "num": 4,
