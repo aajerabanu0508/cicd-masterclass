@@ -750,8 +750,8 @@ export const PresentationPage: React.FC<{ onBackToCourse: () => void }> = ({ onB
 
             {/* Hero Split: Left Info + Right Image */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start mb-3">
-              {/* Left Column (6 cols): Instructor Card & Curriculum Parts */}
-              <div className="lg:col-span-6 space-y-2.5">
+              {/* Left Column (5 cols): Instructor Card & Curriculum Parts */}
+              <div className="lg:col-span-5 space-y-2.5">
                 {/* Instructor Profile Card */}
                 <div className="bg-gradient-to-br from-slate-50 to-blue-50/50 border border-blue-200 rounded-2xl p-3 sm:p-3.5 shadow-sm space-y-2.5">
                   <div className="flex items-center gap-3">
@@ -890,18 +890,18 @@ export const PresentationPage: React.FC<{ onBackToCourse: () => void }> = ({ onB
                 )}
               </div>
 
-              {/* Right Column (6 cols): Embedded Illustration */}
-              <div className="lg:col-span-6 flex flex-col items-center">
+              {/* Right Column (7 cols): Embedded Illustration */}
+              <div className="lg:col-span-7 flex flex-col items-center">
                 <div
-                  className="w-full rounded-2xl overflow-hidden border-2 border-slate-200 shadow-md bg-white p-2.5 cursor-pointer group transition-all hover:border-blue-400"
+                  className="w-full rounded-2xl overflow-hidden border-2 border-slate-200 shadow-md bg-white p-2 cursor-pointer group transition-all hover:border-blue-400"
                   onClick={() => setEnlargedImage(deck === 'deployment' ? '/slides/deployment/slide_1.png' : '/devops_cicd_intro.jpg')}
                   title="Click to view full screen"
                 >
-                  <div className="relative overflow-hidden rounded-xl bg-slate-50 flex items-center justify-center p-1">
+                  <div className="relative overflow-hidden rounded-xl bg-white flex items-center justify-center w-full">
                     <img
                       src={deck === 'deployment' ? '/slides/deployment/slide_1.png' : '/devops_cicd_intro.jpg'}
                       alt={deck === 'deployment' ? 'Software Deployment Overview' : 'DevOps CI/CD Pipeline Automation Illustration'}
-                      className="w-full h-auto min-h-[220px] sm:min-h-[260px] max-h-[380px] rounded-xl object-contain group-hover:scale-101 transition-transform duration-300"
+                      className="w-full h-auto object-contain rounded-xl block group-hover:scale-[1.01] transition-transform duration-300"
                     />
                     <div className="absolute top-2.5 right-2.5 px-2 py-1 rounded-lg bg-black/60 backdrop-blur-sm text-white text-xs font-mono font-bold flex items-center gap-1 opacity-90 group-hover:opacity-100 transition-opacity">
                       <Maximize2 className="w-3 h-3 text-white" />
@@ -995,7 +995,7 @@ export const PresentationPage: React.FC<{ onBackToCourse: () => void }> = ({ onB
                   </div>
 
                   <div
-                    className="relative overflow-hidden rounded-xl bg-slate-50 flex items-center justify-center p-2 cursor-pointer group"
+                    className="relative overflow-hidden rounded-xl bg-white flex items-center justify-center w-full cursor-pointer group"
                     onClick={() => {
                       setEnlargedImage(currentSlide!.image!);
                       setZoomLevel(1);
@@ -1004,7 +1004,7 @@ export const PresentationPage: React.FC<{ onBackToCourse: () => void }> = ({ onB
                     <img
                       src={currentSlide!.image}
                       alt={currentSlide!.title}
-                      className="w-full h-auto min-h-[260px] sm:min-h-[360px] max-h-[500px] rounded-xl object-contain group-hover:scale-101 transition-transform duration-300"
+                      className="w-full h-auto max-h-[680px] 2xl:max-h-[760px] rounded-xl object-contain group-hover:scale-[1.01] transition-transform duration-300"
                     />
                     <div className="absolute top-3 right-3 px-2.5 py-1 rounded-lg bg-black/70 backdrop-blur-sm text-white text-xs font-mono font-bold flex items-center gap-1.5 opacity-90 group-hover:opacity-100 transition-opacity">
                       <Maximize2 className="w-3.5 h-3.5 text-white" />
@@ -1041,8 +1041,8 @@ export const PresentationPage: React.FC<{ onBackToCourse: () => void }> = ({ onB
             ) : (
               /* VIEW MODE 3: SPLIT VIEW WITH CONVENIENT CONTENT TABS */
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start mb-3">
-                {/* Left Side (6 cols): Primary Content & Analogy Tabs */}
-                <div className="lg:col-span-6 space-y-2 flex flex-col justify-between">
+                {/* Left Side (5 cols): Primary Content & Analogy Tabs */}
+                <div className="lg:col-span-5 space-y-2 flex flex-col justify-between">
                   {/* Content Section Tabs */}
                   {hasFoodAnalogy && (
                     <div className="flex items-center gap-1.5 p-1 bg-slate-100 rounded-xl border border-slate-200 text-xs font-bold">
@@ -1110,8 +1110,8 @@ export const PresentationPage: React.FC<{ onBackToCourse: () => void }> = ({ onB
                   )}
                 </div>
 
-                {/* Right Side (6 cols): Architecture Diagram Image */}
-                <div className="lg:col-span-6 flex flex-col items-center space-y-2">
+                {/* Right Side (7 cols): Architecture Diagram Image */}
+                <div className="lg:col-span-7 flex flex-col items-center space-y-2">
                   <div
                     className="w-full rounded-2xl overflow-hidden border-2 border-slate-200 shadow-md bg-white p-2 cursor-pointer group transition-all hover:border-blue-400"
                     onClick={() => {
@@ -1139,11 +1139,11 @@ export const PresentationPage: React.FC<{ onBackToCourse: () => void }> = ({ onB
                       </div>
                     </div>
 
-                    <div className="relative overflow-hidden rounded-xl bg-slate-50 flex items-center justify-center p-1.5">
+                    <div className="relative overflow-hidden rounded-xl bg-white flex items-center justify-center w-full">
                       <img
                         src={currentSlide!.image}
                         alt={currentSlide!.title}
-                        className="w-full h-auto min-h-[220px] sm:min-h-[260px] max-h-[380px] rounded-xl object-contain group-hover:scale-101 transition-transform duration-300"
+                        className="w-full h-auto object-contain rounded-xl block group-hover:scale-[1.01] transition-transform duration-300"
                       />
                       <div className="absolute top-2.5 right-2.5 px-2 py-1 rounded-lg bg-black/60 backdrop-blur-sm text-white text-xs font-mono font-bold flex items-center gap-1 opacity-90 group-hover:opacity-100 transition-opacity">
                         <Maximize2 className="w-3 h-3 text-white" />
