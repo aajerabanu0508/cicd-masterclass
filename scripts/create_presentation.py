@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Generate a 21-slide Masterclass PowerPoint (.pptx) with large readable fonts,
-clean crisp white modern UI/UX theme, Food Ordering Analogy, and Key Takeaways.
+clean crisp white modern UI/UX themes, Food Ordering Analogy, and Key Takeaways.
 """
 
 import os
