@@ -852,7 +852,7 @@ def generate_master_powerpoint():
     tf0 = tb0.text_frame
     tf0.word_wrap = True
     p0 = tf0.paragraphs[0]
-    p0.text = clean("CI/CD: From Manual Software Delivery to Full Automation")
+    p0.text = clean("CI/CD: From Manual Software Delivery ")
     p0.font.size = Pt(28)
     p0.font.bold = True
     p0.font.color.rgb = TEXT_DARK

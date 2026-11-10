@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { MASTER_SLIDES_DATA, MasterSlide, PRESENTER_INFO } from '../data/slidesData';
+import { DEPLOYMENT_SLIDES_DATA } from '../data/deploymentSlidesData';
 import { CodeBlock } from '../components/CodeBlock';
 import { 
   ChevronLeft, 
@@ -33,7 +34,12 @@ import {
 } from 'lucide-react';
 
 export const PresentationPage: React.FC<{ onBackToCourse: () => void }> = ({ onBackToCourse }) => {
-  // 0 = Presenter Introduction Slide, 1-20 = Lessons 1-20
+  // Deck selection: 'deployment' (10 slides) or 'cicd' (21 slides)
+  const [deck, setDeck] = useState<'deployment' | 'cicd'>('deployment');
+  const activeSlides = deck === 'deployment' ? DEPLOYMENT_SLIDES_DATA : MASTER_SLIDES_DATA;
+  const totalSlides = activeSlides.length;
+
+  // 0 = Presenter Introduction Slide, 1-N = Lessons / Modules
   const [slideNum, setSlideNum] = useState<number>(0); 
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [enlargedImage, setEnlargedImage] = useState<string | null>(null);
@@ -45,7 +51,11 @@ export const PresentationPage: React.FC<{ onBackToCourse: () => void }> = ({ onB
 
   const containerRef = useRef<HTMLDivElement>(null);
   const activeScrubberBtnRef = useRef<HTMLButtonElement | null>(null);
-  const totalSlides = MASTER_SLIDES_DATA.length;
+
+  const handleSelectDeck = (newDeck: 'deployment' | 'cicd') => {
+    setDeck(newDeck);
+    setSlideNum(0);
+  };
 
   // Reset tab to 'primary' and ALWAYS reset window scroll to top whenever slide changes
   useEffect(() => {
@@ -130,7 +140,7 @@ export const PresentationPage: React.FC<{ onBackToCourse: () => void }> = ({ onB
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [slideNum, enlargedImage, gridModalOpen]);
 
-  const currentSlide = slideNum > 0 ? MASTER_SLIDES_DATA[slideNum - 1] : null;
+  const currentSlide = slideNum > 0 ? activeSlides[slideNum - 1] : null;
   const hasFoodAnalogy = Boolean(currentSlide?.foodAnalogy);
 
   // Font size classes
@@ -526,11 +536,38 @@ export const PresentationPage: React.FC<{ onBackToCourse: () => void }> = ({ onB
             TOP DECK HEADER & CONTROLS TOOLBAR (INTEGRATED DIRECTLY INTO CARD HEADER)
             ========================================================================= */}
         <div className="bg-slate-50/95 border-b border-slate-200 px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3 flex flex-wrap items-center justify-between gap-2 shrink-0">
-          {/* Deck Meta Title */}
-          <div className="flex items-center gap-2 flex-wrap">
+          {/* Deck Switcher & Meta Title */}
+          <div className="flex items-center gap-2.5 flex-wrap">
+            {/* Deck Switcher Pills */}
+            <div className="flex items-center gap-1 bg-white p-1 rounded-xl border border-slate-200 shadow-sm">
+              <button
+                onClick={() => handleSelectDeck('deployment')}
+                className={`px-3 py-1 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
+                  deck === 'deployment'
+                    ? 'bg-blue-600 text-white shadow-sm ring-1 ring-blue-500'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                }`}
+                title="Deployment Masterclass (10 Slides: Manual vs. Automated)"
+              >
+                <Rocket className="w-3.5 h-3.5" />
+                <span>Deployment (10)</span>
+              </button>
+              <button
+                onClick={() => handleSelectDeck('cicd')}
+                className={`px-3 py-1 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
+                  deck === 'cicd'
+                    ? 'bg-blue-600 text-white shadow-sm ring-1 ring-blue-500'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                }`}
+                title="CI/CD Masterclass (21 Slides)"
+              >
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>CI/CD (21)</span>
+              </button>
+            </div>
+
             <div className="flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider text-blue-600">
-              <Sparkles className="w-3.5 h-3.5 text-blue-600 shrink-0" />
-              <span>CI/CD Masterclass</span>
+              <span>{deck === 'deployment' ? 'Deployment Masterclass' : 'CI/CD Masterclass'}</span>
               <span className="text-slate-300">•</span>
               <span className="text-slate-600 font-semibold">{PRESENTER_INFO.name}</span>
             </div>
@@ -538,7 +575,7 @@ export const PresentationPage: React.FC<{ onBackToCourse: () => void }> = ({ onB
               {slideNum === 0 ? `Slide 00 / ${totalSlides}` : `Slide ${slideNum < 10 ? `0${slideNum}` : slideNum} / ${totalSlides}`}
             </span>
             <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200 hidden sm:inline-flex items-center gap-1">
-              🍔 Food Delivery Analogy
+              🍔 Food & Cloud Analogies
             </span>
           </div>
 
@@ -563,8 +600,8 @@ export const PresentationPage: React.FC<{ onBackToCourse: () => void }> = ({ onB
                 onChange={(e) => setSlideNum(Number(e.target.value))}
                 className="bg-transparent text-xs font-bold text-slate-800 focus:outline-none cursor-pointer max-w-[120px] sm:max-w-[150px] truncate"
               >
-                <option value={0}>00. Intro (Kerthik)</option>
-                {MASTER_SLIDES_DATA.map((s) => (
+                <option value={0}>00. Intro ({PRESENTER_INFO.name})</option>
+                {activeSlides.map((s) => (
                   <option key={s.num} value={s.num}>
                     {s.num < 10 ? `0${s.num}` : s.num}. {s.title.slice(0, 24)}...
                   </option>
@@ -641,10 +678,10 @@ export const PresentationPage: React.FC<{ onBackToCourse: () => void }> = ({ onB
 
             {/* Download PPTX */}
             <a
-              href="/CICD_Masterclass_20_Slides.pptx"
-              download="CI_CD_Masterclass_20_Slides.pptx"
+              href={deck === 'deployment' ? '/Deployment_Masterclass_10_Slides.pptx' : '/CICD_Masterclass_20_Slides.pptx'}
+              download={deck === 'deployment' ? 'Deployment_Masterclass_10_Slides.pptx' : 'CI_CD_Masterclass_20_Slides.pptx'}
               className="flex items-center gap-1 px-2 py-1 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-xs font-bold text-slate-700 shadow-sm transition-all"
-              title="Download PowerPoint Presentation Deck"
+              title={`Download ${deck === 'deployment' ? 'Deployment (10 Slides)' : 'CI/CD (21 Slides)'} PowerPoint Deck`}
             >
               <Download className="w-3.5 h-3.5 text-blue-600" />
               <span className="hidden sm:inline">.PPTX</span>
@@ -693,23 +730,27 @@ export const PresentationPage: React.FC<{ onBackToCourse: () => void }> = ({ onB
                 </span>
               </div>
               <span className="text-xs font-mono font-semibold px-3 py-1 rounded-full bg-slate-100 text-slate-700 border border-slate-200">
-                CI/CD Masterclass
+                {deck === 'deployment' ? 'Deployment Masterclass' : 'CI/CD Masterclass'}
               </span>
             </div>
 
             {/* Title & Subtitle */}
             <div className="mb-3">
               <h2 className={`${headingTextClass} text-slate-950 tracking-tight leading-tight`}>
-                CI/CD: From Manual Software Delivery to Full Automation
+                {deck === 'deployment'
+                  ? 'Software Deployment: Manual Delivery vs. Automated CI/CD'
+                  : 'CI/CD: From Manual Software Delivery to Full Automation'}
               </h2>
               <p className="text-xs sm:text-sm text-slate-600 mt-1 font-medium leading-relaxed">
-                Start from zero, understand manual release friction, master GitHub Actions, and automate AWS cloud delivery with the Food Delivery Analogy 🍔
+                {deck === 'deployment'
+                  ? 'Master the 8-step manual release gauntlet, zero-downtime rolling & blue/green deployments, canary releases, Docker & Kubernetes orchestration, and GitOps delivery.'
+                  : 'Start from zero, understand manual release friction, master GitHub Actions, and automate AWS cloud delivery with the Food Delivery Analogy 🍔'}
               </p>
             </div>
 
             {/* Hero Split: Left Info + Right Image */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start mb-3">
-              {/* Left Column (6 cols): Instructor Card & 5 Curriculum Parts */}
+              {/* Left Column (6 cols): Instructor Card & Curriculum Parts */}
               <div className="lg:col-span-6 space-y-2.5">
                 {/* Instructor Profile Card */}
                 <div className="bg-gradient-to-br from-slate-50 to-blue-50/50 border border-blue-200 rounded-2xl p-3 sm:p-3.5 shadow-sm space-y-2.5">
@@ -764,57 +805,90 @@ export const PresentationPage: React.FC<{ onBackToCourse: () => void }> = ({ onB
                   </div>
                 </div>
 
-                {/* 5 Curriculum Parts (Interactive) */}
-                <div className="grid grid-cols-2 sm:grid-cols-5 gap-1.5">
-                  <button
-                    onClick={() => setSlideNum(1)}
-                    className="p-1.5 sm:p-2 rounded-xl bg-slate-50 hover:bg-blue-50 border border-slate-200 hover:border-blue-300 text-left transition-all"
-                  >
-                    <span className="text-[10px] font-mono font-bold text-blue-700 block">Part 1 (S1-5)</span>
-                    <span className="text-[11px] sm:text-xs text-slate-800 font-semibold block truncate">Why CI/CD</span>
-                  </button>
-                  <button
-                    onClick={() => setSlideNum(6)}
-                    className="p-1.5 sm:p-2 rounded-xl bg-slate-50 hover:bg-blue-50 border border-slate-200 hover:border-blue-300 text-left transition-all"
-                  >
-                    <span className="text-[10px] font-mono font-bold text-blue-700 block">Part 2 (S6-8)</span>
-                    <span className="text-[11px] sm:text-xs text-slate-800 font-semibold block truncate">Git & Tools</span>
-                  </button>
-                  <button
-                    onClick={() => setSlideNum(9)}
-                    className="p-1.5 sm:p-2 rounded-xl bg-slate-50 hover:bg-blue-50 border border-slate-200 hover:border-blue-300 text-left transition-all"
-                  >
-                    <span className="text-[10px] font-mono font-bold text-blue-700 block">Part 3 (S9-13)</span>
-                    <span className="text-[11px] sm:text-xs text-slate-800 font-semibold block truncate">Actions</span>
-                  </button>
-                  <button
-                    onClick={() => setSlideNum(14)}
-                    className="p-1.5 sm:p-2 rounded-xl bg-slate-50 hover:bg-blue-50 border border-slate-200 hover:border-blue-300 text-left transition-all"
-                  >
-                    <span className="text-[10px] font-mono font-bold text-blue-700 block">Part 4 (S14-20)</span>
-                    <span className="text-[11px] sm:text-xs text-slate-800 font-semibold block truncate">Docker & AWS</span>
-                  </button>
-                  <button
-                    onClick={() => setSlideNum(21)}
-                    className="p-1.5 sm:p-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 hover:border-emerald-300 text-left transition-all col-span-2 sm:col-span-1"
-                  >
-                    <span className="text-[10px] font-mono font-bold text-emerald-800 block">Part 5 (S21)</span>
-                    <span className="text-[11px] sm:text-xs text-emerald-950 font-semibold block truncate">Q&A / End</span>
-                  </button>
-                </div>
+                {/* Curriculum Parts (Interactive) */}
+                {deck === 'deployment' ? (
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
+                    <button
+                      onClick={() => setSlideNum(1)}
+                      className="p-1.5 sm:p-2 rounded-xl bg-slate-50 hover:bg-rose-50 border border-slate-200 hover:border-rose-300 text-left transition-all"
+                    >
+                      <span className="text-[10px] font-mono font-bold text-rose-700 block">Part 1 (S1-3)</span>
+                      <span className="text-[11px] sm:text-xs text-slate-800 font-semibold block truncate">Manual Delivery & Fails</span>
+                    </button>
+                    <button
+                      onClick={() => setSlideNum(4)}
+                      className="p-1.5 sm:p-2 rounded-xl bg-slate-50 hover:bg-blue-50 border border-slate-200 hover:border-blue-300 text-left transition-all"
+                    >
+                      <span className="text-[10px] font-mono font-bold text-blue-700 block">Part 2 (S4-6)</span>
+                      <span className="text-[11px] sm:text-xs text-slate-800 font-semibold block truncate">Zero-Downtime & Canary</span>
+                    </button>
+                    <button
+                      onClick={() => setSlideNum(7)}
+                      className="p-1.5 sm:p-2 rounded-xl bg-slate-50 hover:bg-indigo-50 border border-slate-200 hover:border-indigo-300 text-left transition-all"
+                    >
+                      <span className="text-[10px] font-mono font-bold text-indigo-700 block">Part 3 (S7-8)</span>
+                      <span className="text-[11px] sm:text-xs text-slate-800 font-semibold block truncate">Docker, K8s & GitOps</span>
+                    </button>
+                    <button
+                      onClick={() => setSlideNum(9)}
+                      className="p-1.5 sm:p-2 rounded-xl bg-slate-50 hover:bg-emerald-50 border border-slate-200 hover:border-emerald-300 text-left transition-all"
+                    >
+                      <span className="text-[10px] font-mono font-bold text-emerald-700 block">Part 4 (S9-10)</span>
+                      <span className="text-[11px] sm:text-xs text-slate-800 font-semibold block truncate">DB Migrations & Matrix</span>
+                    </button>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-2 sm:grid-cols-5 gap-1.5">
+                    <button
+                      onClick={() => setSlideNum(1)}
+                      className="p-1.5 sm:p-2 rounded-xl bg-slate-50 hover:bg-blue-50 border border-slate-200 hover:border-blue-300 text-left transition-all"
+                    >
+                      <span className="text-[10px] font-mono font-bold text-blue-700 block">Part 1 (S1-5)</span>
+                      <span className="text-[11px] sm:text-xs text-slate-800 font-semibold block truncate">Why CI/CD</span>
+                    </button>
+                    <button
+                      onClick={() => setSlideNum(6)}
+                      className="p-1.5 sm:p-2 rounded-xl bg-slate-50 hover:bg-blue-50 border border-slate-200 hover:border-blue-300 text-left transition-all"
+                    >
+                      <span className="text-[10px] font-mono font-bold text-blue-700 block">Part 2 (S6-8)</span>
+                      <span className="text-[11px] sm:text-xs text-slate-800 font-semibold block truncate">Git & Tools</span>
+                    </button>
+                    <button
+                      onClick={() => setSlideNum(9)}
+                      className="p-1.5 sm:p-2 rounded-xl bg-slate-50 hover:bg-blue-50 border border-slate-200 hover:border-blue-300 text-left transition-all"
+                    >
+                      <span className="text-[10px] font-mono font-bold text-blue-700 block">Part 3 (S9-13)</span>
+                      <span className="text-[11px] sm:text-xs text-slate-800 font-semibold block truncate">Actions</span>
+                    </button>
+                    <button
+                      onClick={() => setSlideNum(14)}
+                      className="p-1.5 sm:p-2 rounded-xl bg-slate-50 hover:bg-blue-50 border border-slate-200 hover:border-blue-300 text-left transition-all"
+                    >
+                      <span className="text-[10px] font-mono font-bold text-blue-700 block">Part 4 (S14-20)</span>
+                      <span className="text-[11px] sm:text-xs text-slate-800 font-semibold block truncate">Docker & AWS</span>
+                    </button>
+                    <button
+                      onClick={() => setSlideNum(21)}
+                      className="p-1.5 sm:p-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 hover:border-emerald-300 text-left transition-all col-span-2 sm:col-span-1"
+                    >
+                      <span className="text-[10px] font-mono font-bold text-emerald-800 block">Part 5 (S21)</span>
+                      <span className="text-[11px] sm:text-xs text-emerald-950 font-semibold block truncate">Q&A / End</span>
+                    </button>
+                  </div>
+                )}
               </div>
 
-              {/* Right Column (6 cols): Embedded DevOps Pipeline Illustration */}
+              {/* Right Column (6 cols): Embedded Illustration */}
               <div className="lg:col-span-6 flex flex-col items-center">
                 <div
                   className="w-full rounded-2xl overflow-hidden border-2 border-slate-200 shadow-md bg-white p-2.5 cursor-pointer group transition-all hover:border-blue-400"
-                  onClick={() => setEnlargedImage('/devops_cicd_intro.jpg')}
+                  onClick={() => setEnlargedImage(deck === 'deployment' ? '/slides/deployment/slide_1.png' : '/devops_cicd_intro.jpg')}
                   title="Click to view full screen"
                 >
                   <div className="relative overflow-hidden rounded-xl bg-slate-50 flex items-center justify-center p-1">
                     <img
-                      src="/devops_cicd_intro.jpg"
-                      alt="DevOps CI/CD Pipeline Automation Illustration"
+                      src={deck === 'deployment' ? '/slides/deployment/slide_1.png' : '/devops_cicd_intro.jpg'}
+                      alt={deck === 'deployment' ? 'Software Deployment Overview' : 'DevOps CI/CD Pipeline Automation Illustration'}
                       className="w-full h-auto min-h-[220px] sm:min-h-[260px] max-h-[380px] rounded-xl object-contain group-hover:scale-101 transition-transform duration-300"
                     />
                     <div className="absolute top-2.5 right-2.5 px-2 py-1 rounded-lg bg-black/60 backdrop-blur-sm text-white text-xs font-mono font-bold flex items-center gap-1 opacity-90 group-hover:opacity-100 transition-opacity">
@@ -824,7 +898,9 @@ export const PresentationPage: React.FC<{ onBackToCourse: () => void }> = ({ onB
                   </div>
                   <div className="p-2 text-center bg-slate-50 rounded-lg mt-1.5 border border-slate-200">
                     <span className="text-xs font-mono font-bold text-slate-900 block">
-                      ⚙️ DevOps Automated Assembly Line: Git Commit ➔ Tests ➔ Docker ➔ AWS
+                      {deck === 'deployment'
+                        ? '🚀 Software Deployment Journey: Code ➔ Container ➔ Health Checks ➔ Live Traffic (200 OK)'
+                        : '⚙️ DevOps Automated Assembly Line: Git Commit ➔ Tests ➔ Docker ➔ AWS'}
                     </span>
                   </div>
                 </div>
@@ -852,13 +928,13 @@ export const PresentationPage: React.FC<{ onBackToCourse: () => void }> = ({ onB
                 <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-600">
                   {currentSlide!.category}
                 </span>
-                {currentSlide!.num === 16 && (
+                {deck === 'cicd' && currentSlide!.num === 16 && (
                   <span className="px-2.5 py-0.5 rounded-full font-mono font-bold text-xs bg-amber-100 text-amber-900 border border-amber-300 flex items-center gap-1 shadow-sm">
                     <Cloud className="w-3 h-3 text-amber-700" />
                     <span>AWS Cloud Platform</span>
                   </span>
                 )}
-                {currentSlide!.num === 19 && (
+                {deck === 'cicd' && currentSlide!.num === 19 && (
                   <span className="px-2.5 py-0.5 rounded-full font-mono font-bold text-xs bg-emerald-100 text-emerald-900 border border-emerald-300 flex items-center gap-1 shadow-sm">
                     <Rocket className="w-3 h-3 text-emerald-700" />
                     <span>AWS Hands-On Lab</span>
@@ -866,7 +942,7 @@ export const PresentationPage: React.FC<{ onBackToCourse: () => void }> = ({ onB
                 )}
               </div>
               <span className="text-xs font-mono font-semibold px-3 py-1 rounded-full bg-slate-100 text-slate-700 border border-slate-200">
-                CI/CD Masterclass
+                {deck === 'deployment' ? 'Deployment Masterclass' : 'CI/CD Masterclass'}
               </span>
             </div>
 
@@ -1131,7 +1207,7 @@ export const PresentationPage: React.FC<{ onBackToCourse: () => void }> = ({ onB
             >
               00
             </button>
-            {MASTER_SLIDES_DATA.map((s) => {
+            {activeSlides.map((s) => {
               const isActive = s.num === slideNum;
               return (
                 <button
@@ -1186,7 +1262,7 @@ export const PresentationPage: React.FC<{ onBackToCourse: () => void }> = ({ onB
               <div>
                 <h3 className="text-xl font-black text-slate-950 flex items-center gap-2">
                   <LayoutGrid className="w-5 h-5 text-blue-600" />
-                  <span>All {totalSlides} Slides Overview</span>
+                  <span>{deck === 'deployment' ? 'Deployment Masterclass' : 'CI/CD Masterclass'}: All {totalSlides} Slides Overview</span>
                 </h3>
                 <p className="text-xs text-slate-500 mt-0.5">Click any slide card to jump directly to it</p>
               </div>
@@ -1221,10 +1297,12 @@ export const PresentationPage: React.FC<{ onBackToCourse: () => void }> = ({ onB
                     <span className="text-[10px] text-slate-400 font-mono">Overview</span>
                   </div>
                   <h4 className="text-sm font-bold text-slate-950 leading-snug">
-                    CI/CD Masterclass Introduction
+                    {deck === 'deployment' ? 'Deployment Masterclass Overview' : 'CI/CD Masterclass Introduction'}
                   </h4>
                   <p className="text-xs text-slate-600 mt-1 line-clamp-2">
-                    Course introduction, instructor profile (Kerthik), and 4-phase curriculum roadmap.
+                    {deck === 'deployment' 
+                      ? 'Course introduction, instructor profile (Kerthik), and 4-phase deployment curriculum.'
+                      : 'Course introduction, instructor profile (Kerthik), and 5-phase curriculum roadmap.'}
                   </p>
                 </div>
                 <div className="mt-3 pt-2 border-t border-slate-100 flex items-center gap-1.5 text-[11px] text-blue-600 font-bold">
@@ -1233,8 +1311,8 @@ export const PresentationPage: React.FC<{ onBackToCourse: () => void }> = ({ onB
                 </div>
               </div>
 
-              {/* Slides 1-20 Cards */}
-              {MASTER_SLIDES_DATA.map((slide) => {
+              {/* Slides 1-N Cards */}
+              {activeSlides.map((slide) => {
                 const isActive = slide.num === slideNum;
                 return (
                   <div
